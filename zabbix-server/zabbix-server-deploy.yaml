@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zabbixserver
+  namespace: monitoring
+spec:
+  type: NodePort
+  ports:
+  - port:  10051
+    protocol: TCP
+    targetPort: 10051
+  selector:
+    app: zabbix-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zabbix-server
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix-server
+  template:
+    metadata:
+      labels:
+        app: zabbix-server
+    spec:
+      containers:
+        - name: zabbix-server
+          image: zabbix/zabbix-server-mysql:ol-5.0-latest
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 10051
+            name: server
+            protocol: TCP
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+             secretKeyRef:
+              name: mysql-user-pwd
+              key: mysql-root-pwd
+          - name: DB_SERVER_ROOT_USER
+            value: root
+          - name: DB_SERVER_HOST
+            value: "mysql"
+          - name: MYSQL_USER
+            value: "zabbix"
+          - name: MYSQL_PASSWORD
+            valueFrom:
+             secretKeyRef:
+              name: zabbix-secrets
+              key: MYSQL_PASSWORD
+          - name: MYSQL_DATABASE
+            value: "zabbix"
+          - name: ZBX_CACHESIZE
+            value: "1024M"
+          - name: ZBX_TRENDCACHESIZE
+            value: "1024M"
+          - name: ZBX_HISTORYCACHESIZE
+            value: "2048M"
+          - name: ZBX_HISTORYINDEXCACHESIZE
+            value: "1024M"
+          - name: ZBX_STARTTRAPPERS
+            value: "5"
+          - name: ZBX_STARTPREPROCESSORS
+            value: "10"
+          - name: ZBX_STARTDBSYNCERS
+            value: "10"
+          - name: DB_SERVER_PORT
+            value: "3306"
+        - name: zabbix-agent
+          image: zabbix/zabbix-agent:ol-5.0-latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 10050
+            name: zabbix-agent
+          env:
+          - name: ZBX_HOSTNAME
+            value: "Zabbix server"
+          - name: ZBX_SERVER_HOST
+            value: "127.0.0.1"
+          - name: ZBX_PASSIVE_ALLOW
+            value: "true"
+          - name: ZBX_STARTAGENTS
+            value: "3"
+          - name: ZBX_TIMEOUT
+            value: "10"
+          securityContext:
+            privileged: true

@@ -3,8 +3,9 @@ Este projeto irá configurar a instalação do zabbix-server em um cluster k8s.
 
 ## Dependencias
 
-- k8s v1.23.1
+- kubernetes v1.23.1
 - kubectl v.1.23.1
+- minikube v1.26.0
 
 ## Instalação
 
@@ -34,6 +35,9 @@ Aguarde e acompanhe os logs no zabbix-server enquanto o schema do banco é execu
 Terminado execute o comando
 
 ```
-minikube service zabbix-web --url
+minikube service zabbix-web -n monitoring --url
 ```
-A saída deve ser igual
+A saída deve ser o ip ex: http://192.168.49.2:30080
+
+# License
+GPLv3

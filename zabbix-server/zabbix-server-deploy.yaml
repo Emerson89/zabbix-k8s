@@ -1,16 +1,3 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: zabbixserver
-  namespace: monitoring
-spec:
-  type: NodePort
-  ports:
-  - port:  10051
-    protocol: TCP
-    targetPort: 10051
-  selector:
-    app: zabbix-server
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -39,8 +26,8 @@ spec:
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
              secretKeyRef:
-              name: mysql-user-pwd
-              key: mysql-root-pwd
+              name: zabbix-secrets
+              key: MYSQL_ROOT_PASSWORD
           - name: DB_SERVER_ROOT_USER
             value: root
           - name: DB_SERVER_HOST

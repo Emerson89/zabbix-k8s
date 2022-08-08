@@ -10,6 +10,7 @@ Este projeto irá configurar a instalação do zabbix-server em um cluster k8s.
 ## Instalação
 
 ```
+kubectl apply -f namespace.yaml
 kubectl apply -f zabbix-front/.
 kubectl apply -f zabbix-server/.
 kubectl apply -f mysql/.

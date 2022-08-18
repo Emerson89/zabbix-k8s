@@ -1,0 +1,34 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: backup
+  namespace: monitoring
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: mysql
+            image: mysql
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - mysqldump zabbix -p$MYSQL_ROOT_PASSWORD > /var/lib/mysql/dump.sql;
+            - date; echo Drupal database has been backed up
+            env:
+             - name: MYSQL_ROOT_PASSWORD
+               valueFrom:
+                 secretKeyRef:
+                   name: zabbix-secrets
+                   key: MYSQL_ROOT_PASSWORD
+             - name: MYSQL_USER
+               value: "zabbix"
+             - name: MYSQL_DATABASE
+               value: "zabbix"
+             - name: DB_SERVER_HOST
+               value: "mysql"
+          restartPolicy: OnFailure

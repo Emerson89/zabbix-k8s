@@ -35,12 +35,17 @@ spec:
             command: ["/bin/sh","-c"]
             args:
              - |-
-                mysqldump --no-tablespaces -h $DB_SERVER_HOST -u$MYSQL_USER -p$MYSQL_PASSWORD zabbix --single-transaction > /root/backup/zabbix.sql;
+                mysqldump --no-tablespaces -h $DB_SERVER_HOST -u$MYSQL_USER -p$MYSQL_PASSWORD zabbix --single-transaction | gzip > /root/backup/zabbix-`date +%Y-%m-%d-%H-%M`.sql.gz;
                 date; echo Backup executado com sucesso...
             volumeMounts:
              - mountPath: /root/backup
                name: mysql-persistent-storage-backup
+             - mountPath: /etc/localtime
+               name: timezone
           volumes:
+             - name: timezone
+               hostPath:
+                   path: /usr/share/zoneinfo/America/Sao_Paulo
              - name: mysql-persistent-storage-backup
                persistentVolumeClaim:
                 claimName: mysql-pv-claim-backup

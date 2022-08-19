@@ -40,5 +40,17 @@ minikube service zabbix-web -n monitoring --url
 ```
 A saída deve ser o ip ex: http://192.168.49.2:30080
 
+## Backup
+
+Será criado um cronjob que será executado a cada 10 minutos altere conforme sua necessidade, criando um disco persistente em */mnt/backup* 
+
+## Restore
+
+```
+kubectl cp /mnt/backup/zabbix.sql monitoring/mysql-podname:/tmp
+zcat zabbix.sql.gz | mysql -u USUARIO -p PASSWORD DBNAME
+
+```
+
 # License
 GPLv3

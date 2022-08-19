@@ -5,21 +5,13 @@ metadata:
   name: backup
   namespace: monitoring
 spec:
-  schedule: "* * * * *"
+  schedule: "1 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: mysql
-            image: mysql
-            imagePullPolicy: IfNotPresent
-            command:
-            - /bin/sh
-            - -c
-            - mysqldump zabbix -p$MYSQL_ROOT_PASSWORD > /var/lib/mysql/dump.sql;
-            - date; echo Drupal database has been backed up
-            env:
+          - env:
              - name: MYSQL_ROOT_PASSWORD
                valueFrom:
                  secretKeyRef:
@@ -31,4 +23,19 @@ spec:
                value: "zabbix"
              - name: DB_SERVER_HOST
                value: "mysql"
+            image: emr001/alpine-mysql:v1
+            imagePullPolicy: IfNotPresent
+            name: backup
+            command:
+             - /bin/sh
+             - -c
+             - mysqldump -u$MYSQL_USER -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE > /root/backup/dump.sql;
+             - date; echo Drupal database has been backed up
+            volumeMounts:
+             - mountPath: /root/backup
+               name: mysql-persistent-storage-backup
+          volumes:
+             - name: mysql-persistent-storage-backup
+               persistentVolumeClaim:
+                claimName: mysql-pv-claim-backup
           restartPolicy: OnFailure

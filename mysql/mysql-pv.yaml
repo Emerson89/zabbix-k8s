@@ -37,3 +37,34 @@ spec:
   resources:
     requests:
       storage: 5Gi
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv-volume-backup
+  namespace: monitoring
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/backup"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim-backup
+  namespace: monitoring
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

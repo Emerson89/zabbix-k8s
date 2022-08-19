@@ -2,10 +2,11 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: backup
+  name: backup-db-mysql
   namespace: monitoring
 spec:
-  schedule: "1 * * * *"
+  schedule: "*/10 * * * *"
+  successfulJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
@@ -17,6 +18,11 @@ spec:
                  secretKeyRef:
                    name: zabbix-secrets
                    key: MYSQL_ROOT_PASSWORD
+             - name: MYSQL_PASSWORD
+               valueFrom:
+                 secretKeyRef:
+                   name: zabbix-secrets
+                   key: MYSQL_PASSWORD
              - name: MYSQL_USER
                value: "zabbix"
              - name: MYSQL_DATABASE
@@ -26,11 +32,11 @@ spec:
             image: emr001/alpine-mysql:v1
             imagePullPolicy: IfNotPresent
             name: backup
-            command:
-             - /bin/sh
-             - -c
-             - mysqldump -u$MYSQL_USER -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE > /root/backup/dump.sql;
-             - date; echo Drupal database has been backed up
+            command: ["/bin/sh","-c"]
+            args:
+             - |-
+                mysqldump --no-tablespaces -h $DB_SERVER_HOST -u$MYSQL_USER -p$MYSQL_PASSWORD zabbix --single-transaction > /root/backup/zabbix.sql;
+                date; echo Backup executado com sucesso...
             volumeMounts:
              - mountPath: /root/backup
                name: mysql-persistent-storage-backup

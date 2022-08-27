@@ -38,7 +38,11 @@ Terminado execute o comando
 ```
 minikube service zabbix-web -n monitoring --url
 ```
-A saída deve ser o ip ex: http://192.168.49.2:30080
+A saída deve ser o ip é parecido com ex: http://192.168.49.2:30080
+
+## Configmap Zabbix-server
+
+Para integração e monitoramento externo utilize o *zabbix-server-configmap.yaml* 
 
 ## Backup
 

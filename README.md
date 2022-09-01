@@ -17,7 +17,10 @@ kubectl apply -f mysql/.
 ```
 Criando um namespace chamado monitoring
 
-Para ambiente de *teste* execute no minikube para instalação https://k8s-docs.netlify.app/en/docs/tasks/tools/install-minikube/ 
+**RECOMENDO NÃO USAR O BANCO DE DADOS EM CONTAINER E SIM UM SERVIÇO GERENCIADO COMO RDS DA AWS POR EXEMPLO, ESTE CENÁRIO FOI CRIADO PARA FINS DE APRENDIZADO**
+
+Para ambiente de **teste** execute no minikube para instalação https://k8s-docs.netlify.app/en/docs/tasks/tools/install-minikube/ 
+
 Aguarde e acompanhe os logs no zabbix-server enquanto o schema do banco é executado
 ```
 ** Preparing Zabbix server

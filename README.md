@@ -35,10 +35,17 @@ Aguarde e acompanhe os logs no zabbix-server enquanto o schema do banco é execu
 ```
 Terminado execute o comando
 
+## Acesso ao front
+
+É criado um ingress *zabbix-ingress* para acesso via browser é preciso configurar o arquivo hosts para acesso ao dns interno
 ```
-minikube service zabbix-web -n monitoring --url
+NAME             CLASS   HOSTS               ADDRESS        PORTS   AGE
+zabbix-ingress   nginx   zabbix.example.io   192.168.49.2   80      2d3h
 ```
-A saída deve ser o ip é parecido com ex: http://192.168.49.2:30080
+Exemplo de conf /etc/hosts:
+```
+192.168.49.2 zabbix.example.io
+```
 
 ## Configmap Zabbix-server
 

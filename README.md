@@ -17,7 +17,7 @@ kubectl apply -f mysql/.
 ```
 Criando um namespace chamado monitoring
 
-**RECOMENDO NÃO USAR O BANCO DE DADOS EM CONTAINER E SIM UM SERVIÇO GERENCIADO COMO RDS DA AWS POR EXEMPLO, ESTE CENÁRIO FOI CRIADO PARA FINS DE APRENDIZADO**
+**CASO FOR USAR O BANCO DE DADOS EM CONTAINER EXISTE O CRONJOB QUE EXECUTA O BACKUP PARA O PV DO CONTAINER**
 
 Para ambiente de **teste** execute no minikube para instalação https://k8s-docs.netlify.app/en/docs/tasks/tools/install-minikube/ 
 

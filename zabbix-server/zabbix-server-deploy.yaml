@@ -79,21 +79,26 @@ spec:
           - name: DB_SERVER_PORT
             value: "3306"
           volumeMounts:
-            - name: zabbix-configmap
+            - name: zabbix-secret
               mountPath: "/usr/lib/zabbix/alertscripts/slack.sh"
               subPath: slack.sh
             
-            # Descomente para monitoramento externo
-            #- name: zabbix-configmap
-            #  mountPath: "/usr/lib/zabbix/externalscripts/external.sh"
-            #  subPath: external.sh
-
             # Descomente para integração adicional
-            #- name: zabbix-configmap
+            #- name: zabbix-secret
             #  mountPath: "/usr/lib/zabbix/alertscripts/adicional.sh"
             #  subPath: adicional.sh
+
+            # Descomente para monitoramento externo
+            #- name: zabbix-secret
+            #  mountPath: "/usr/lib/zabbix/externalscripts/external.sh"
+            #  subPath: external.sh        
       volumes:
-        - name: zabbix-configmap
-          configMap:
+        - name: zabbix-secret
+          secret:
+           secretName: zabbix-secret
            defaultMode: 0755
-           name: zabbix-configmap
+           items:
+           - key: slack.sh
+             path: slack.sh
+           #- key: external.sh
+           #  path: external.sh

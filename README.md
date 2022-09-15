@@ -40,7 +40,10 @@ Terminado execute o comando
 
 ## Acesso ao front
 
-É criado um ingress *zabbix-ingress* para acesso via browser é preciso configurar o arquivo hosts para acesso ao dns interno
+É criado um ingress *zabbix-ingress* para acesso via browser é preciso configurar o arquivo hosts para acesso ao dns interno, para utilizar no minikube habilite usando o comando:
+```
+minikube addons enable ingress
+```
 ```
 NAME             CLASS   HOSTS               ADDRESS        PORTS   AGE
 zabbix-ingress   nginx   zabbix.example.io   192.168.49.2   80      2d3h
@@ -50,9 +53,12 @@ Exemplo de conf /etc/hosts:
 192.168.49.2 zabbix.example.io
 ```
 
-## Configmap Zabbix-server
+## Secrets Zabbix-server
 
-Para integração e monitoramento externo utilize o *zabbix-server-configmap.yaml* 
+Para integração e monitoramento externo utilize o *zabbix-server-secret.yaml* realize a criptografia dos arquivos 
+```
+echo 'conteudo a ser criptografado' | base64
+```
 
 ## Backup
 

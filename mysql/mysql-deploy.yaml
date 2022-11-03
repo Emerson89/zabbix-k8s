@@ -18,6 +18,7 @@ spec:
     spec:
       containers:
       - image: mysql:8.0.19
+        imagePullPolicy: IfNotPresent
         name: mysql
         args:
             - "--default-authentication-plugin=mysql_native_password"

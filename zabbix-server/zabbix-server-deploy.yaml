@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: zabbix-agent
-          image: zabbix/zabbix-agent:ol-5.0-latest
-          imagePullPolicy: Always
+          image: zabbix/zabbix-agent:6.0-ol-latest
+          imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 10050
             name: zabbix-agent
@@ -35,7 +35,7 @@ spec:
           securityContext:
             privileged: true
         - name: zabbix-server
-          image: zabbix/zabbix-server-mysql:ol-5.0-latest
+          image: zabbix/zabbix-server-mysql:6.0-ol-latest
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 10051

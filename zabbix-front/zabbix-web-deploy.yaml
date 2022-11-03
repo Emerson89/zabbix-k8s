@@ -15,7 +15,7 @@ spec:
         app: zabbix-web
     spec:
       containers:
-      - image: zabbix/zabbix-web-nginx-mysql:ol-5.0-latest
+      - image: zabbix/zabbix-web-nginx-mysql:6.0-ol-latest
         livenessProbe:
           exec:
             command:

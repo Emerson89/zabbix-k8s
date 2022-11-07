@@ -37,6 +37,10 @@ spec:
         - name: zabbix-server
           image: zabbix/zabbix-server-mysql:6.0-ol-latest
           imagePullPolicy: IfNotPresent
+          resources:
+           requests:
+            cpu: 0.2
+            memory: 500Mi
           ports:
           - containerPort: 10051
             name: server

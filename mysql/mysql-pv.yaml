@@ -25,20 +25,6 @@ spec:
     path: "/mnt/data"
 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pv-claim
-  namespace: monitoring
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-
----
 kind: PersistentVolume
 apiVersion: v1
 metadata:

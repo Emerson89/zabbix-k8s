@@ -64,7 +64,7 @@ spec:
         name: mysql-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: "manual"
+        storageClassName: "standard"
         resources:
           requests:
             storage: 5Gi

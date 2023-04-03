@@ -1,11 +1,11 @@
----
-kind: StorageClass
-apiVersion: storage.k8s.io/v1
-metadata:
-  name: manual
-  namespace: monitoring
-provisioner: docker.io/hostpath
-reclaimPolicy: Retain
+#---
+#kind: StorageClass
+#apiVersion: storage.k8s.io/v1
+#metadata:
+#  name: manual
+#  namespace: monitoring
+#provisioner: docker.io/hostpath
+#reclaimPolicy: Retain
 
 ---
 kind: PersistentVolume
@@ -16,7 +16,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: standard
   capacity:
     storage: 5Gi
   accessModes:
@@ -33,7 +33,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: standard
   capacity:
     storage: 5Gi
   accessModes:
@@ -48,7 +48,7 @@ metadata:
   name: mysql-pv-claim-backup
   namespace: monitoring
 spec:
-  storageClassName: manual
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:

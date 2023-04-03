@@ -1,0 +1,52 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-db-mysql
+  namespace: monitoring
+spec:
+  schedule: "*/10 * * * *"
+  successfulJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - env:
+             - name: MYSQL_ROOT_PASSWORD
+               valueFrom:
+                 secretKeyRef:
+                   name: zabbix-secrets
+                   key: MYSQL_ROOT_PASSWORD
+             - name: MYSQL_PASSWORD
+               valueFrom:
+                 secretKeyRef:
+                   name: zabbix-secrets
+                   key: MYSQL_PASSWORD
+             - name: MYSQL_USER
+               value: "zabbix"
+             - name: MYSQL_DATABASE
+               value: "zabbix"
+             - name: DB_SERVER_HOST
+               value: "mysql"
+            image: emr001/alpine-mysql:v1
+            imagePullPolicy: IfNotPresent
+            name: backup
+            command: ["/bin/sh","-c"]
+            args:
+             - |-
+                mysqldump --no-tablespaces -h $DB_SERVER_HOST -u$MYSQL_USER -p$MYSQL_PASSWORD zabbix --single-transaction | gzip > /root/backup/zabbix-`date +%Y-%m-%d-%H-%M`.sql.gz;
+                date; echo Backup executado com sucesso...
+            volumeMounts:
+             - mountPath: /root/backup
+               name: mysql-persistent-storage-backup
+             - mountPath: /etc/localtime
+               name: timezone
+          volumes:
+             - name: timezone
+               hostPath:
+                   path: /usr/share/zoneinfo/America/Sao_Paulo
+             - name: mysql-persistent-storage-backup
+               persistentVolumeClaim:
+                claimName: mysql-pv-claim-backup
+          restartPolicy: OnFailure

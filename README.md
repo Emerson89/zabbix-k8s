@@ -8,7 +8,7 @@ Este projeto irá configurar a instalação do zabbix-server em um cluster k8s.
 - minikube v1.26.0
 
 
-<img src="epYhW2k.png" width="100%" height="100%">
+<img src="epYhW2k.png" width="60" height="60">
 
 #
 ## Instalação

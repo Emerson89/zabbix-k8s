@@ -9,7 +9,7 @@ Este projeto irá configurar a instalação do zabbix-server em um cluster k8s.
 
 
 <img src="epYhW2k.png"
-     alt="Smiley face"
+     alt="HTML5 Doctor Logo"
      style="border:5px solid black"
      style="float: left; margin-right: 10px;" />  
 

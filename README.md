@@ -5,6 +5,7 @@ Este projeto irá configurar a instalação do zabbix-server em um cluster k8s.
 
 - kubernetes v1.27.6
 - kubectl v.1.23.1
+- k3s - https://docs.k3s.io/quick-start 
 
 #
 ## TL;DR

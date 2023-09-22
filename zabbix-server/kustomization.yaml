@@ -1,0 +1,3 @@
+resources:
+- zabbix-server-deploy.yaml
+- zabbix-server-service.yaml

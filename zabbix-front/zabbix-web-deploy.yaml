@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zabbix-web
-  namespace: monitoring
 spec:
   replicas: 2
   selector:
@@ -34,6 +33,9 @@ spec:
            memory: 500Mi
         ports:
         - containerPort: 8080
+        envFrom:
+          - secretRef:
+              name: secrets-server
         env:
         - name: DB_SERVER_HOST
           value: "mysql"
@@ -41,10 +43,5 @@ spec:
           value: "zabbixserver"
         - name: MYSQL_USER
           value: "zabbix"
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: zabbix-secrets
-              key: MYSQL_PASSWORD
         - name: TZ
           value: "America/Sao_Paulo"

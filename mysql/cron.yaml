@@ -3,7 +3,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: backup-db-mysql
-  namespace: monitoring
 spec:
   schedule: "*/10 * * * *"
   successfulJobsHistoryLimit: 3
@@ -13,22 +12,17 @@ spec:
         spec:
           containers:
           - env:
-             - name: MYSQL_ROOT_PASSWORD
-               valueFrom:
-                 secretKeyRef:
-                   name: zabbix-secrets
-                   key: MYSQL_ROOT_PASSWORD
-             - name: MYSQL_PASSWORD
-               valueFrom:
-                 secretKeyRef:
-                   name: zabbix-secrets
-                   key: MYSQL_PASSWORD
-             - name: MYSQL_USER
-               value: "zabbix"
-             - name: MYSQL_DATABASE
-               value: "zabbix"
-             - name: DB_SERVER_HOST
-               value: "mysql"
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-server
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_USER
+              value: "zabbix"
+            - name: MYSQL_DATABASE
+              value: "zabbix"
+            - name: DB_SERVER_HOST
+              value: "mysql"
             image: emr001/alpine-mysql:v1
             imagePullPolicy: IfNotPresent
             name: backup
@@ -50,3 +44,16 @@ spec:
                persistentVolumeClaim:
                 claimName: mysql-pv-claim-backup
           restartPolicy: OnFailure
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim-backup
+  namespace: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

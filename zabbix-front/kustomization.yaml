@@ -1,0 +1,4 @@
+resources:
+- zabbix-web-deploy.yaml
+- zabbix-web-service.yaml
+- zabbix-ingress.yaml

@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zabbix-server
-  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -21,6 +20,9 @@ spec:
           ports:
           - containerPort: 10050
             name: zabbix-agent
+          envFrom:
+           - secretRef:
+               name: secrets-agent  
           env:
           - name: ZBX_HOSTNAME
             value: "Zabbix server"
@@ -47,23 +49,20 @@ spec:
             protocol: TCP
           securityContext:  
             privileged: true
+          envFrom:
+           - secretRef:
+               name: secrets-server
+           - secretRef:
+               name: secrets-alertscripts
+           - secretRef:
+               name: secrets-externalscripts         
           env:
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-             secretKeyRef:
-              name: zabbix-secrets
-              key: MYSQL_ROOT_PASSWORD
           - name: DB_SERVER_ROOT_USER
             value: root
           - name: DB_SERVER_HOST
             value: "mysql"
           - name: MYSQL_USER
             value: "zabbix"
-          - name: MYSQL_PASSWORD
-            valueFrom:
-             secretKeyRef:
-              name: zabbix-secrets
-              key: MYSQL_PASSWORD
           - name: MYSQL_DATABASE
             value: "zabbix"
           - name: ZBX_CACHESIZE
@@ -83,26 +82,16 @@ spec:
           - name: DB_SERVER_PORT
             value: "3306"
           volumeMounts:
-            - name: zabbix-secret
-              mountPath: "/usr/lib/zabbix/alertscripts/slack.sh"
-              subPath: slack.sh
-            
-            # Descomente para integração adicional
-            #- name: zabbix-secret
-            #  mountPath: "/usr/lib/zabbix/alertscripts/adicional.sh"
-            #  subPath: adicional.sh
-
-            # Descomente para monitoramento externo
-            #- name: zabbix-secret
-            #  mountPath: "/usr/lib/zabbix/externalscripts/external.sh"
-            #  subPath: external.sh        
+            - name: zabbix-alertscripts
+              mountPath: /usr/lib/zabbix/alertscripts
+            - name: zabbix-externalscripts
+              mountPath: /usr/lib/zabbix/externalscripts      
       volumes:
-        - name: zabbix-secret
+        - name: zabbix-alertscripts
           secret:
-           secretName: zabbix-secret
+           secretName: secrets-alertscripts
            defaultMode: 0755
-           items:
-           - key: slack.sh
-             path: slack.sh
-           #- key: external.sh
-           #  path: external.sh
+        - name: zabbix-externalscripts
+          secret:
+           secretName: secrets-externalscripts
+           defaultMode: 0755

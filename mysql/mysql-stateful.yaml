@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql
-  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -27,19 +26,12 @@ spec:
           requests:
             cpu: 0.2
             memory: 500Mi
+        envFrom:
+          - secretRef:
+              name: secrets-server    
         env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: zabbix-secrets
-              key: MYSQL_ROOT_PASSWORD
         - name: MYSQL_USER
           value: "zabbix"
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: zabbix-secrets
-              key: MYSQL_PASSWORD
         - name: MYSQL_DATABASE
           value: "zabbix"
         ports:
@@ -64,7 +56,6 @@ spec:
         name: mysql-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: "manual"
         resources:
           requests:
             storage: 5Gi

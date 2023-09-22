@@ -24,7 +24,7 @@ kubectl delete -k .
 ```
 #
 
-## Acesso ao front
+## acesso ao front
 
 É criado um ingress *zabbix-ingress* para acesso via browser insira o ip do node:
 
@@ -41,7 +41,7 @@ spec:
   - host: "zabbix.SEU-IP.nip.io"
 ```
 
-## Envs
+## envs
 
 Password do user zabbix e root do mysql pode ser alterado usando *secrets-server.env* 
 
@@ -49,11 +49,26 @@ MYSQL_ROOT_PASSWORD=password
 
 MYSQL_PASSWORD=zabbix
 
-## Backup
+## alertscripts e externalscripts
+
+Insira os scripts conforme sua necessidade nos diretorios correspondentes e no kustomization.yaml
+
+```yaml
+- name: secrets-alertscripts
+  files:
+  - alertscripts/slack.sh
+  - alertscripts/new.sh
+- name: secrets-externalscripts
+  files:
+  - externalscripts/monit.py
+  - externalscripts/new.py
+```
+
+## backup
 
 Será criado um cronjob que será executado a cada 10 minutos altere conforme sua necessidade
 
-## Restore
+## restore
 
 ```
 kubectl cp /zabbix.sql monitoring/mysql-podname:/tmp

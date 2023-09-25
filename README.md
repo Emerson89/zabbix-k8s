@@ -12,6 +12,16 @@ Este projeto irá configurar a instalação do zabbix-server em um cluster k8s.
  
  - Usando kustomize
 
+### k3s
+
+```
+curl -sfL https://get.k3s.io | sh -s - --disable=traefik
+```
+
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
+```
+
 ### Apply
 
 ```

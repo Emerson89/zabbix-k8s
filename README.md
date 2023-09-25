@@ -19,6 +19,14 @@ curl -sfL https://get.k3s.io | sh -s - --disable=traefik
 ```
 
 ```
+sudo chown 1000:1000 /etc/rancher/k3s/k3s.yaml && cp /etc/rancher/k3s/k3s.yaml .
+```
+
+```
+export KUBECONFIG=./k3s.yaml
+```
+
+```
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
 ```
 

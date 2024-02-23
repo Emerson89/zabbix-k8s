@@ -2,4 +2,4 @@ resources:
 - mysql-stateful.yaml
 - service-mysql.yaml
 - mysql-configmap.yaml
-- cron.yaml
+#- cron.yaml

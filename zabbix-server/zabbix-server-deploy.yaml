@@ -81,6 +81,14 @@ spec:
             value: "10"
           - name: DB_SERVER_PORT
             value: "3306"
+          - name: ZBX_JAVAGATEWAY_ENABLE
+            value: "true"
+          - name: ZBX_JAVAGATEWAY
+            value: "zabbix-java-gateway"
+          - name: ZBX_JAVAGATEWAYPORT
+            value: "10052"
+          - name: ZBX_STARTJAVAPOLLERS
+            value: "5"    
           volumeMounts:
             - name: zabbix-alertscripts
               mountPath: /usr/lib/zabbix/alertscripts

@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: "zabbix.127.0.0.1.nip.io"
+  - host: "zabbix.YOU-IP.nip.io"
     http:
       paths:
       - path: /

@@ -24,7 +24,7 @@ spec:
             - --collation-server=utf8_bin
         resources:
           requests:
-            cpu: 0.2
+            cpu: 500m
             memory: 500Mi
         envFrom:
           - secretRef:
@@ -50,7 +50,7 @@ spec:
             name: mysql-config
         - name: timezone
           hostPath:
-            path: /usr/share/zoneinfo/America/Sao_Paulo
+            path: /usr/share/zoneinfo/America/Sao_Paulo   
   volumeClaimTemplates:
     - metadata:
         name: mysql-data

@@ -10,6 +10,7 @@ resources:
   - mysql
   - zabbix-server
   - zabbix-front
+  - zabbix-java-gateway
 secretGenerator:
 - name: secrets-agent
   envs:

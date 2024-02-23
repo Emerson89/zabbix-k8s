@@ -41,6 +41,16 @@ kubectl apply -k .
 ```
 kubectl delete -k .
 ```
+
+## Install grafana
+
+```
+helm repo add grafana https://grafana.github.io/helm-charts
+```
+```
+helm install grafana grafana/grafana -n monitoring -f values-grafana.yaml
+```
+
 #
 
 ## acesso ao front

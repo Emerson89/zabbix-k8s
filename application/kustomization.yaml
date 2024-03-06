@@ -7,20 +7,20 @@ generatorOptions:
 namespace: monitoring
 resources:
   - namespace.yaml  
-  - mysql
-  - zabbix-server
-  - zabbix-front
-  - zabbix-java-gateway
+  - ../mysql
+  - ../zabbix-server
+  - ../zabbix-front
+  - ../zabbix-java-gateway
 secretGenerator:
 - name: secrets-agent
   envs:
-  - envs/secrets-agent.env
+  - ../envs/secrets-agent.env
 - name: secrets-server
   envs:
-  - envs/secrets-server.env
+  - ../envs/secrets-server.env
 - name: secrets-alertscripts
   files:
-  - alertscripts/slack.sh
+  - ../alertscripts/slack.sh
 - name: secrets-externalscripts
   files:
-  - externalscripts/monit.py
+  - ../externalscripts/monit.py

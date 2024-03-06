@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: zabbix-k8s
+    path: .
     repoURL: https://github.com/Emerson89/zabbix-k8s.git
     targetRevision: develop
   syncPolicy:

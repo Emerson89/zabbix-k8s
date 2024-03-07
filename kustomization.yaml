@@ -11,6 +11,14 @@ resources:
   - zabbix-server
   - zabbix-front
   - zabbix-java-gateway
+patches:
+  - target:
+      kind: Ingress
+      name: zabbix-ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/host
+        value: zabbix.192.168.3.15.nip.io 
 secretGenerator:
 - name: secrets-agent
   envs:

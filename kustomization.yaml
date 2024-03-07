@@ -17,7 +17,7 @@ patches:
       name: zabbix-ingress
     patch: |-
       - op: replace
-        path: /spec/rules/host
+        path: /spec/rules/0/host
         value: zabbix.192.168.3.15.nip.io 
 secretGenerator:
 - name: secrets-agent
